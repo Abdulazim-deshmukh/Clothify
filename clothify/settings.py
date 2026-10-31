@@ -1,13 +1,24 @@
 from pathlib import Path
 import os
+
 import dj_database_url
+from dotenv import load_dotenv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env
+load_dotenv(BASE_DIR / '.env')
+
 TEMPLATE_DIR = BASE_DIR / 'Template'
 
+
 SECRET_KEY = 'django-insecure-clothify-development-key-change-in-production'
+
 DEBUG = True
+
 ALLOWED_HOSTS = []
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -19,8 +30,10 @@ INSTALLED_APPS = [
     'clothifyapp',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -29,7 +42,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'clothify.urls'
+
 
 TEMPLATES = [
     {
@@ -47,8 +62,22 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'clothify.wsgi.application'
+
+
+# ============================================================
+# DATABASE
+# ============================================================
+
+# If DATABASE_URL exists in .env:
+#     Django uses PostgreSQL (Neon)
+#
+# If DATABASE_URL is empty:
+#     Django uses local SQLite
+
 DATABASE_URL = os.environ.get('DATABASE_URL')
+
 
 if DATABASE_URL:
     DATABASES = {
@@ -65,6 +94,8 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -80,13 +111,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'Asia/Kolkata'
+
 USE_I18N = True
+
 USE_TZ = True
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
