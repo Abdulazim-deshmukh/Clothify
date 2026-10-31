@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-
+import cloudinary
 import dj_database_url
 from dotenv import load_dotenv
 
@@ -9,7 +9,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from .env
 load_dotenv(BASE_DIR / '.env')
+CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME')
+CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY')
+CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET')
 
+cloudinary.config(
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET,
+)
 TEMPLATE_DIR = BASE_DIR / 'Template'
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-clothify-development-key-change-in-production')
@@ -25,6 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
     'clothifyapp',
 ]
 
@@ -129,3 +139,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
