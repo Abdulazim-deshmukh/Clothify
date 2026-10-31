@@ -12,13 +12,11 @@ load_dotenv(BASE_DIR / '.env')
 
 TEMPLATE_DIR = BASE_DIR / 'Template'
 
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-clothify-development-key-change-in-production')
 
-SECRET_KEY = 'django-insecure-clothify-development-key-change-in-production'
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
