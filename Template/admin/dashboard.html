@@ -1,0 +1,9 @@
+{% extends 'Base.html' %}
+{% block title %}Clothify | Admin Dashboard{% endblock %}
+{% block container %}
+<section class="admin-header"><div class="container"><span class="eyebrow dark">ADMINISTRATION</span><h1>Dashboard</h1><p>Manage the Clothify store from one place.</p></div></section>
+<section class="section section-tight"><div class="container">
+<div class="stats-grid"><a class="stat-card" href="{% url 'productlist_admin' %}"><span>Products</span><strong>{{ product_count }}</strong><small>Manage catalogue →</small></a><a class="stat-card" href="{% url 'customerlist' %}"><span>Customers</span><strong>{{ customer_count }}</strong><small>View customers →</small></a><a class="stat-card" href="{% url 'orderlist' %}"><span>Orders</span><strong>{{ order_count }}</strong><small>View orders →</small></a></div>
+<div class="admin-panel"><div class="panel-head"><div><span class="eyebrow dark">RECENT ACTIVITY</span><h2>Recent orders</h2></div><a class="arrow-link" href="{% url 'orderlist' %}">View all →</a></div>{% if recent_orders %}<div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Delivery</th><th>Total</th></tr></thead><tbody>{% for order in recent_orders %}<tr><td><strong>{{ order.orderNo }}</strong></td><td>{{ order.name }}</td><td>{{ order.city }}, {{ order.state }}</td><td><strong>₹{{ order.totalbill }}</strong></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="table-empty">No orders have been placed yet.</div>{% endif %}</div>
+</div></section>
+{% endblock %}

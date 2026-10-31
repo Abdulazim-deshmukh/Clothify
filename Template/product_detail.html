@@ -1,0 +1,16 @@
+{% extends 'Base.html' %}
+{% block title %}{{ product.productname }} | Clothify{% endblock %}
+{% block container %}
+<section class="section product-detail-section"><div class="container product-detail-grid">
+    <div class="detail-media">{% if product.product_image %}<img src="{{ product.product_image.url }}" alt="{{ product.productname }}">{% else %}<div class="image-placeholder">No image available</div>{% endif %}</div>
+    <div class="detail-copy">
+        <span class="eyebrow dark">CLOTHIFY EDIT</span>
+        <h1>{{ product.productname }}</h1>
+        <div class="detail-price">₹{{ product.productprice }}</div>
+        <div class="detail-rule"></div>
+        <h3>Product details</h3><p>{{ product.productdescription }}</p>
+        {% if request.session.cust_emailId %}<a class="btn btn-dark detail-btn" href="{% url 'addtocart' product.productId %}">Add to cart</a>{% else %}<a class="btn btn-dark detail-btn" href="{% url 'login' %}">Login to add to cart</a>{% endif %}
+        <a class="back-link" href="{% url 'shop' %}">← Back to shop</a>
+    </div>
+</div></section>
+{% endblock %}

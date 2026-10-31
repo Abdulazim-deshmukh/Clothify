@@ -1,0 +1,16 @@
+{% extends 'Base.html' %}
+{% block title %}Clothify | Checkout{% endblock %}
+{% block container %}
+<section class="page-banner"><div class="container"><span class="eyebrow dark">CHECKOUT</span><h1>Complete your order</h1><p>Enter your delivery details. No online payment is required.</p></div></section>
+<section class="section section-tight"><div class="container checkout-layout">
+<div class="form-card"><span class="eyebrow dark">DELIVERY DETAILS</span><h2>Where should we deliver?</h2><form method="POST" action="{% url 'placeorder' %}" class="form-grid">{% csrf_token %}
+<div class="form-group full"><label>Full name</label><input name="name" value="{{ customer.customername }}" required></div>
+<div class="form-group"><label>Phone number</label><input name="phoneno" type="tel" value="{{ customer.customerphonenumber|default:'' }}" required></div>
+<div class="form-group"><label>Pincode</label><input name="pincode" maxlength="10" required></div>
+<div class="form-group full"><label>Address</label><textarea name="address" rows="4" required>{{ customer.customeraddress|default:'' }}</textarea></div>
+<div class="form-group"><label>City</label><input name="city" required></div>
+<div class="form-group"><label>State</label><input name="state" required></div>
+<button class="btn btn-dark full-btn full" type="submit">Place order</button></form></div>
+<aside class="summary-card"><span class="eyebrow dark">ORDER SUMMARY</span><h2>Your selection</h2>{% for item in cart_items %}<div class="checkout-line"><div><strong>{{ item.productid.productname }}</strong><span>Qty {{ item.quantity }}</span></div><strong>₹{{ item.totalPrice }}</strong></div>{% endfor %}<div class="summary-divider"></div><div class="summary-row summary-total"><span>Total</span><strong>₹{{ cart_total }}</strong></div><p class="small-note">Your order is placed directly. Online payment is not part of this project.</p></aside>
+</div></section>
+{% endblock %}

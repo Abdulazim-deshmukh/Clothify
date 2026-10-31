@@ -1,0 +1,6 @@
+{% extends 'Base.html' %}
+{% block title %}Clothify | Manage Products{% endblock %}
+{% block container %}
+<section class="admin-header"><div class="container admin-header-row"><div><span class="eyebrow dark">CATALOGUE</span><h1>Products</h1><p>Manage the products shown in your store.</p></div><a class="btn btn-dark" href="{% url 'addproduct' %}">+ Add product</a></div></section>
+<section class="section section-tight"><div class="container"><div class="admin-panel"><div class="table-wrap"><table><thead><tr><th>Product</th><th>Description</th><th>Price</th><th>Actions</th></tr></thead><tbody>{% for product in products %}<tr><td><div class="table-product">{% if product.product_image %}<img src="{{ product.product_image.url }}" alt="">{% endif %}<strong>{{ product.productname }}</strong></div></td><td>{{ product.productdescription }}</td><td><strong>₹{{ product.productprice }}</strong></td><td><div class="action-links"><a href="{% url 'edit_product' product.productId %}">Edit</a><a class="danger-link" href="{% url 'delete_product' product.productId %}" onclick="return confirm('Delete this product?');">Delete</a></div></td></tr>{% empty %}<tr><td colspan="4" class="table-empty">No products found.</td></tr>{% endfor %}</tbody></table></div></div></div></section>
+{% endblock %}

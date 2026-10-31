@@ -1,0 +1,26 @@
+{% extends 'Base.html' %}
+{% block title %}Clothify | Shop{% endblock %}
+{% block container %}
+<section class="page-banner">
+    <div class="container"><span class="eyebrow dark">THE COLLECTION</span><h1>Shop all products</h1><p>Explore the complete Clothify collection.</p></div>
+</section>
+<section class="section section-tight"><div class="container">
+    {% if products %}
+    <div class="shop-toolbar"><span>{{ products|length }} products</span><span>Everyday essentials · Simple shopping</span></div>
+    <div class="product-grid">
+        {% for product in products %}
+        <article class="product-card">
+            <a class="product-media" href="{% url 'product_detail' product.productId %}">{% if product.product_image %}<img src="{{ product.product_image.url }}" alt="{{ product.productname }}">{% else %}<div class="image-placeholder">No image</div>{% endif %}</a>
+            <div class="product-body">
+                <span class="product-kicker">CLOTHIFY EDIT</span>
+                <h3><a href="{% url 'product_detail' product.productId %}">{{ product.productname }}</a></h3>
+                <p>{{ product.productdescription }}</p>
+                <div class="product-meta"><strong>₹{{ product.productprice }}</strong><a href="{% url 'product_detail' product.productId %}">Details →</a></div>
+                {% if request.session.cust_emailId %}<a class="btn btn-dark full-btn" href="{% url 'addtocart' product.productId %}">Add to cart</a>{% else %}<a class="btn btn-light full-btn" href="{% url 'login' %}">Login to buy</a>{% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}<div class="empty-state"><h2>No products yet</h2><p>Products added from the admin dashboard will appear here.</p></div>{% endif %}
+</div></section>
+{% endblock %}

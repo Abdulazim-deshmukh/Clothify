@@ -1,0 +1,65 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block title %}Clothify | Everyday Style{% endblock %}
+{% block container %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <span class="eyebrow">THE CLOTHIFY EDIT</span>
+            <h1>Everyday style,<br><em>made simple.</em></h1>
+            <p>Modern essentials, comfortable layers and timeless pieces for the way you live.</p>
+            <div class="button-row">
+                <a class="btn btn-dark" href="{% url 'shop' %}">Shop collection <span>→</span></a>
+                {% if not request.session.cust_emailId %}<a class="text-button" href="{% url 'register' %}">Create an account</a>{% endif %}
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="{% static 'images/left-banner-image.jpg' %}" alt="Clothify fashion collection">
+            <div class="hero-note"><strong>NEW SEASON</strong><span>Effortless pieces for every day.</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="value-strip">
+    <div class="container value-grid">
+        <div><span>01</span><div><strong>Curated essentials</strong><p>Simple pieces selected for everyday wear.</p></div></div>
+        <div><span>02</span><div><strong>Easy shopping</strong><p>Browse, choose, add to cart and order.</p></div></div>
+        <div><span>03</span><div><strong>Simple returns</strong><p>A straightforward store experience.</p></div></div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <div><span class="eyebrow dark">SHOP THE EDIT</span><h2>Featured pieces</h2><p>A few customer favourites from the collection.</p></div>
+            <a class="arrow-link" href="{% url 'shop' %}">View all products →</a>
+        </div>
+        {% if products %}
+        <div class="product-grid">
+            {% for product in products %}
+            <article class="product-card">
+                <a class="product-media" href="{% url 'product_detail' product.productId %}">
+                    {% if product.product_image %}<img src="{{ product.product_image.url }}" alt="{{ product.productname }}">{% else %}<div class="image-placeholder">No image</div>{% endif %}
+                </a>
+                <div class="product-body">
+                    <span class="product-kicker">CLOTHIFY EDIT</span>
+                    <h3><a href="{% url 'product_detail' product.productId %}">{{ product.productname }}</a></h3>
+                    <p>{{ product.productdescription }}</p>
+                    <div class="product-meta"><strong>₹{{ product.productprice }}</strong><a href="{% url 'product_detail' product.productId %}">View →</a></div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><h3>Your collection is coming together.</h3><p>Add products from the admin dashboard and they will appear here.</p></div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="editorial">
+    <div class="container editorial-grid">
+        <div><span class="eyebrow dark">ABOUT CLOTHIFY</span><h2>Good style doesn't need to be complicated.</h2></div>
+        <p>Clothify is a simple fashion store built to demonstrate a complete e-commerce flow with Django, SQLite, templates, sessions and a practical admin dashboard.</p>
+    </div>
+</section>
+{% endblock %}

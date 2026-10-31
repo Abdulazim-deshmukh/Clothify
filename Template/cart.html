@@ -1,0 +1,17 @@
+{% extends 'Base.html' %}
+{% block title %}Clothify | Cart{% endblock %}
+{% block container %}
+<section class="page-banner"><div class="container"><span class="eyebrow dark">YOUR SELECTION</span><h1>Shopping cart</h1><p>Review your products before checkout.</p></div></section>
+<section class="section section-tight"><div class="container">
+{% if cart_items %}
+<div class="cart-layout"><div class="cart-list">
+{% for item in cart_items %}<article class="cart-item">
+    <a class="cart-image" href="{% url 'product_detail' item.productid.productId %}">{% if item.productid.product_image %}<img src="{{ item.productid.product_image.url }}" alt="{{ item.productid.productname }}">{% else %}<div class="image-placeholder">No image</div>{% endif %}</a>
+    <div class="cart-info"><span class="product-kicker">CLOTHIFY EDIT</span><h3>{{ item.productid.productname }}</h3><p>{{ item.productid.productdescription }}</p><strong>₹{{ item.productid.productprice }}</strong></div>
+    <form class="quantity-form" method="POST" action="{% url 'updateprice' item.id %}">{% csrf_token %}<label for="qty{{ item.id }}">Qty</label><div><input id="qty{{ item.id }}" name="quantity" type="number" min="1" value="{{ item.quantity }}"><button class="mini-btn" type="submit">Update</button></div></form>
+    <div class="cart-total"><strong>₹{{ item.totalPrice }}</strong><a href="{% url 'remove_from_cart' item.id %}">Remove</a></div>
+</article>{% endfor %}
+</div><aside class="summary-card"><span class="eyebrow dark">SUMMARY</span><h2>Your order</h2><div class="summary-row"><span>Items</span><span>{{ cart_items|length }}</span></div><div class="summary-row summary-total"><span>Total</span><strong>₹{{ cart_total }}</strong></div><a class="btn btn-dark full-btn" href="{% url 'checkout' %}">Proceed to checkout</a><a class="continue-link" href="{% url 'shop' %}">← Continue shopping</a></aside></div>
+{% else %}<div class="empty-state"><div class="empty-icon">□</div><h2>Your cart is empty</h2><p>Add a few pieces from the collection to get started.</p><a class="btn btn-dark" href="{% url 'shop' %}">Shop the collection</a></div>{% endif %}
+</div></section>
+{% endblock %}
